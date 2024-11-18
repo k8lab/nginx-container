@@ -1,0 +1,17 @@
+services:
+  nginx:
+    build:
+      context: ./container/nginx
+      args:
+        TIME_ZONE: ${TIME_ZONE-UTC}
+        WSL_USER: ${USER}
+    ports:
+      - ${HTTPS_PORT-8499}:443
+    volumes:
+      - ./container/nginx/config:/etc/nginx/conf.d
+      - ${HOME}/cert:/:/etc/nginx/cert
+      - ./volumes/nginx/log:/var/log/nginx
+      - ../:/var/www/html
+    environment:
+      - TZ=${TIME_ZONE-UTC}
+    
